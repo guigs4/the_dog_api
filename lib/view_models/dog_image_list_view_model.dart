@@ -3,13 +3,14 @@ import 'package:the_dog_app/models/dog_image_model.dart';
 import 'package:the_dog_app/services/web_service.dart';
 import 'dog_image_view_model.dart';
 
-enum LoadingStatus{ //REMEMBER TO USE THIS SHIT THIS TIME MF
+enum LoadingStatus {
+  //REMEMBER TO USE THIS SHIT THIS TIME MF
   completed,
   searching,
   empty
 }
 
-class DogImageListViewModel with ChangeNotifier{
+class DogImageListViewModel with ChangeNotifier {
   LoadingStatus loadingStatus = LoadingStatus.empty;
   List<DogImageViewModel> images = <DogImageViewModel>[];
 
@@ -18,13 +19,16 @@ class DogImageListViewModel with ChangeNotifier{
     loadingStatus = LoadingStatus.searching;
     notifyListeners();
 
-    images = dogImages.map((dogImage) => DogImageViewModel(image: dogImage)).toList();
+    images = dogImages
+        .map((dogImage) => DogImageViewModel(image: dogImage))
+        .toList();
 
-    if (images.isEmpty){
+    if (images.isEmpty) {
       loadingStatus = LoadingStatus.empty;
-    }else{
+    } else {
       loadingStatus = LoadingStatus.completed;
     }
     notifyListeners();
   }
 }
+

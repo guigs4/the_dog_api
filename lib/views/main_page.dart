@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dog_app/view_models/dog_image_list_view_model.dart';
 import 'package:the_dog_app/widgets/dogs_grid.dart';
+import 'package:the_dog_app/widgets/paged_dogs_grid.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key, required this.title});
@@ -50,7 +51,7 @@ class _MainPageState extends State<MainPage> {
               endIndent: 20,
             ),
             Expanded(
-              child: DogsGrid(
+              child: PagedDogsGrid(
                 dogImages: listViewModel.images,
               ),
             ),
