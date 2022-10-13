@@ -26,30 +26,28 @@ class _MainPageState extends State<MainPage> {
     var listViewModel = Provider.of<DogImageListViewModel>(context);
     return Scaffold(
       appBar: AppBar(
-        actions: const <Widget>[
-          Icon(Icons.more_vert),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.tune),
+            onPressed: () {
+              // open prefs screen
+            },
+          )
         ],
+        title: const Padding(
+          padding: EdgeInsets.only(left: 20),
+          child: Text(
+            'Doggos :D',
+            style: TextStyle(
+              fontSize: 30,
+            ),
+          ),
+        ),
       ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Text(
-                'Doggos :D',
-                style: TextStyle(
-                  fontSize: 30,
-                ),
-              ),
-            ),
-            const Divider(
-              color: Color(0xffff8a30),
-              height: 30,
-              thickness: 6,
-              indent: 20,
-              endIndent: 20,
-            ),
             Expanded(
               child: PagedDogsGrid(
                 dogImages: listViewModel.images,
