@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_dog_app/models/preferences_model.dart';
 import 'package:the_dog_app/services/web_service.dart';
+import '../widgets/breeds_dropdown_button.dart';
 import '../widgets/preference_groups/sort_method_group.dart';
 
 class ListPreferencesScreen extends StatefulWidget {
@@ -68,43 +69,67 @@ class _ListPreferencesScreenState extends State<ListPreferencesScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'List Preferences',
-          ),
-          actions: _hasChangedPreferences
-              ? [
-                  IconButton(
-                    icon: const Icon(Icons.done),
-                    onPressed: () {
-                      _sendResultsBack(context);
-                    },
-                  )
-                ]
-              : null,
+      appBar: AppBar(
+        title: const Text(
+          'List Preferences',
         ),
-        body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : _error != null
-                ? Text("Error: $_error") //TODO: change to a proper error indicator
-                : ListView(
+        actions: _hasChangedPreferences
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.done),
+                  onPressed: () {
+                    _sendResultsBack(context);
+                  },
+                )
+              ]
+            : null,
+      ),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : _error != null
+              ? Text(
+                  "Error: $_error") //TODO: change to a proper error indicator
+              : Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: ListView(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: SortMethodGroup(
-                          selectedItem: _selectedSortMethod,
-                          onOptionTap: (option) => setState(
-                            () => _selectedSortMethod = option,
-                          ),
+                      const Text("Sort Method: "),
+                      SortMethodGroup(
+                        selectedItem: _selectedSortMethod,
+                        onOptionTap: (option) => setState(
+                          () => _selectedSortMethod = option,
                         ),
                       ),
                       const Divider(),
+                      Row(
+                        children: [
+                          const Text("Breeds:"),
+                          const IntrinsicHeight(
+                            child: VerticalDivider(
+                              //doesn't work* for some god forsaken reason
+                              // *on windows, untested on mobile
+                              width: 20,
+                              thickness: 12,
+                              indent: 2,
+                              endIndent: 2,
+                              color: Colors.black12,
+                            ),
+                          ),
+                          BreedsDropdownButton(
+                            listToMap: _allBreeds,
+                            previousBreed: _previousBreed,
+                            onChanged: (option) => setState(
+                                  () => _selectedBreed = option,
+                            ),
+                          ),
+                        ],
+                      ),
                       const Divider(),
                     ],
                   ),
-      );
+                ));
 
   void _sendResultsBack(BuildContext context) {
     Navigator.of(context).pop(

@@ -11,7 +11,7 @@ class BreedInfo {
   String breedId;
   String breedName;
 
-  BreedInfo({this.breedId = "", this.breedName=""});
+  BreedInfo({this.breedId = "", this.breedName = ""});
 
   //'id' is supposed to come as a String but it's being passed as an int so the
   //conversion is necessary

@@ -38,7 +38,7 @@ class _SortMethodGroupState extends State<SortMethodGroup> {
                   .copyWith(color: Colors.white, fontSize: 14),
             ),
             selected: defaultChoice == _choicesMap.values.elementAt(index),
-            selectedColor: Colors.deepPurple, //TODO: Change to orange
+            selectedColor: Colors.orangeAccent, //TODO: Change to orange
             onSelected: (value) {
               setState(() {
                 defaultChoice = value
