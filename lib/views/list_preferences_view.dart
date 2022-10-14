@@ -1,14 +1,10 @@
-import 'dart:js_util';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:the_dog_app/models/preferences_model.dart';
 import 'package:the_dog_app/services/web_service.dart';
-
 import '../widgets/preference_groups/sort_method_group.dart';
 
 class ListPreferencesScreen extends StatefulWidget {
-  const ListPreferencesScreen({super.key, this.preferences});
+  const ListPreferencesScreen({super.key, required this.preferences});
 
   final PreferencesModel? preferences;
 
@@ -20,7 +16,7 @@ class _ListPreferencesScreenState extends State<ListPreferencesScreen> {
   bool _isLoading = true;
   List<BreedInfo> _allBreeds = [];
   SortMethod _selectedSortMethod = SortMethod.random;
-  BreedInfo _selectedBreed = BreedInfo();
+  BreedInfo? _selectedBreed = BreedInfo();
   dynamic _error;
 
   PreferencesModel? get _previousPreferences => widget.preferences;
@@ -29,8 +25,8 @@ class _ListPreferencesScreenState extends State<ListPreferencesScreen> {
   SortMethod get _previousSortMethod =>
       _previousPreferences?.sortMethod ?? SortMethod.random;
 
-  bool get _hasChangedSorting => !equal(_previousSortMethod, _selectedSortMethod);
-  bool get _hasChangedBreed => !equal(_previousBreed, _selectedBreed);
+  bool get _hasChangedSorting => _previousSortMethod != _selectedSortMethod;
+  bool get _hasChangedBreed => _previousBreed != _selectedBreed;
   bool get _hasChangedPreferences => _hasChangedBreed || _hasChangedSorting;
 
   @override
@@ -92,17 +88,19 @@ class _ListPreferencesScreenState extends State<ListPreferencesScreen> {
                 child: CircularProgressIndicator(),
               )
             : _error != null
-                ? const Placeholder() //change to a proper error indicator
+                ? Text("Error: $_error") //TODO: change to a proper error indicator
                 : ListView(
                     children: [
-                      SortMethodGroup(
-                        selectedItem: _selectedSortMethod,
-                        onOptionTap: (option) => setState(
-                          () => _selectedSortMethod = option,
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: SortMethodGroup(
+                          selectedItem: _selectedSortMethod,
+                          onOptionTap: (option) => setState(
+                            () => _selectedSortMethod = option,
+                          ),
                         ),
                       ),
                       const Divider(),
-
                       const Divider(),
                     ],
                   ),
@@ -110,16 +108,15 @@ class _ListPreferencesScreenState extends State<ListPreferencesScreen> {
 
   void _sendResultsBack(BuildContext context) {
     Navigator.of(context).pop(
-      ListPreferences(
-        filteredCategoryIds: _selectedCategoryIds,
-        filteredDifficulties: _selectedDifficulties,
-        filteredPlatformIds: _selectedPlatformIds,
+      PreferencesModel(
+        selectedBreed: _selectedBreed,
         sortMethod: _selectedSortMethod,
       ),
     );
   }
 }
 
+//TODO: Remove if unused
 extension _Toggle<T> on List<T> {
   void toggleItem(T item) => contains(item) ? remove(item) : add(item);
 }

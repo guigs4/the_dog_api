@@ -1,18 +1,20 @@
 enum SortMethod { random, asc, desc }
 
 class PreferencesModel {
-  PreferencesModel({this.sortMethod = SortMethod.random, required this.selectedBreed});
+  PreferencesModel({this.sortMethod = SortMethod.random, this.selectedBreed});
   final SortMethod sortMethod;
-  final BreedInfo selectedBreed;
+  final BreedInfo? selectedBreed;
 }
 
 //TODO: move to its own file
 class BreedInfo {
-  String? breedId;
-  String? breedName;
+  String breedId;
+  String breedName;
 
-  BreedInfo({this.breedId, this.breedName});
+  BreedInfo({this.breedId = "", this.breedName=""});
 
+  //'id' is supposed to come as a String but it's being passed as an int so the
+  //conversion is necessary
   factory BreedInfo.fromJson(Map<String, dynamic> json) =>
-      BreedInfo(breedId: json['id'], breedName: json['name']);
+      BreedInfo(breedId: json['id'].toString(), breedName: json['name']);
 }

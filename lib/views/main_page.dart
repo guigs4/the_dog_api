@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:the_dog_app/models/preferences_model.dart';
 import 'package:the_dog_app/view_models/dog_image_list_view_model.dart';
-import 'package:the_dog_app/widgets/dogs_grid.dart';
 import 'package:the_dog_app/widgets/paged_dogs_grid.dart';
+
+import 'list_preferences_view.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key, required this.title});
@@ -14,6 +16,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  late PreferencesModel _preferencesModel = PreferencesModel();
+
   @override
   void initState() {
     super.initState();
@@ -30,7 +34,7 @@ class _MainPageState extends State<MainPage> {
           IconButton(
             icon: const Icon(Icons.tune),
             onPressed: () {
-              // open prefs screen
+              _pushListPreferencesScreen(context);
             },
           )
         ],
@@ -57,5 +61,20 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _pushListPreferencesScreen(BuildContext context) async {
+    final route = MaterialPageRoute<PreferencesModel>(
+      builder: (_) => ListPreferencesScreen(
+        preferences: _preferencesModel,
+      ),
+      fullscreenDialog: true,
+    );
+    final newPreferences = await Navigator.of(context).push(route);
+    if (newPreferences != null) {
+      setState(() {
+        _preferencesModel = newPreferences;
+      });
+    }
   }
 }

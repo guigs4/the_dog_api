@@ -6,7 +6,7 @@ import 'package:the_dog_app/secrets.dart';
 import '../view_models/dog_image_list_view_model.dart'; //pseudo 'UserSecrets'
 
 class WebService {
-  var dio = Dio(BaseOptions(baseUrl: 'https://api.thedogapi.com/v1/images', headers: {'x-api-key': Secrets.apiString}));
+  var dio = Dio(BaseOptions(baseUrl: 'https://api.thedogapi.com/v1', headers: {'x-api-key': Secrets.apiString}));
 
   Future<List<DogImage>> fetchRandomDogImages() async {
     return await fetchDogImages();
@@ -17,7 +17,7 @@ class WebService {
       String size = "full",
       String order = "RANDOM",
       String breedId = ""}) async {
-    String url = "/search";
+    String url = "/images/search";
     var response = await dio.get(url, queryParameters: {
       'page': page,
       'size': size,
