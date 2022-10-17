@@ -17,7 +17,7 @@ class _ListPreferencesScreenState extends State<ListPreferencesScreen> {
   bool _isLoading = true;
   List<BreedInfo> _allBreeds = [];
   SortMethod _selectedSortMethod = SortMethod.random;
-  BreedInfo? _selectedBreed = BreedInfo();
+  BreedInfo _selectedBreed = BreedInfo();
   dynamic _error;
 
   PreferencesModel? get _previousPreferences => widget.preferences;
@@ -139,9 +139,4 @@ class _ListPreferencesScreenState extends State<ListPreferencesScreen> {
       ),
     );
   }
-}
-
-//TODO: Remove if unused
-extension _Toggle<T> on List<T> {
-  void toggleItem(T item) => contains(item) ? remove(item) : add(item);
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:the_dog_app/models/dog_image_model.dart';
+import 'package:the_dog_app/models/preferences_model.dart';
 import 'package:the_dog_app/services/web_service.dart';
 
 import '../view_models/dog_image_view_model.dart';
@@ -10,10 +11,12 @@ import 'circle_widget.dart';
 class PagedDogsGrid extends StatefulWidget {
   const PagedDogsGrid({
     required this.dogImages,
+    required this.preferencesModel,
     super.key,
   });
 
   final List<DogImageViewModel> dogImages;
+  final PreferencesModel preferencesModel;
 
   @override
   _PagedDogsGridState createState() => _PagedDogsGridState();
@@ -23,6 +26,14 @@ class _PagedDogsGridState extends State<PagedDogsGrid> {
   final _pagingController = PagingController<int, DogImage>(
     firstPageKey: 0,
   );
+
+  @override
+  void didUpdateWidget(PagedDogsGrid oldWidget) {
+    if (oldWidget.preferencesModel != widget.preferencesModel) {
+      _pagingController.refresh();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   void initState() {
@@ -37,7 +48,8 @@ class _PagedDogsGridState extends State<PagedDogsGrid> {
       final web = WebService();
       final newPage = await web.fetchDogImages(
         page: pageKey,
-        //TODO: FILTERING
+        order: widget.preferencesModel.sortMethod.name,
+        breedId: widget.preferencesModel.selectedBreed.breedId,
       );
 
       final previouslyFetchedItemsCount =

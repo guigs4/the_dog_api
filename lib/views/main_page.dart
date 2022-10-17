@@ -16,7 +16,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late PreferencesModel _preferencesModel = PreferencesModel();
+  late PreferencesModel _preferencesModel =
+      PreferencesModel(selectedBreed: BreedInfo());
 
   @override
   void initState() {
@@ -55,6 +56,7 @@ class _MainPageState extends State<MainPage> {
             Expanded(
               child: PagedDogsGrid(
                 dogImages: listViewModel.images,
+                preferencesModel: _preferencesModel,
               ),
             ),
           ],
