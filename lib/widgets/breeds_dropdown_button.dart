@@ -1,18 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../models/preferences_model.dart';
 
 class BreedsDropdownButton extends StatefulWidget{
   final List<BreedInfo> listToMap;
   BreedInfo? previousBreed;
   final ValueChanged<BreedInfo> onChanged;
-  BreedsDropdownButton({super.key, required this.listToMap, previousBreed, required this.onChanged});
+  BreedsDropdownButton({super.key, required this.listToMap, required this.previousBreed, required this.onChanged});
 
   @override
   State<BreedsDropdownButton> createState() => _BreedsDropdownButtonState();
 
   String get selectedBreed => previousBreed?.breedName ?? "None";
+
   List<String> getList() {
     List<String> output = ["None"];
 

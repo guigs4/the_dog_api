@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dog_app/view_models/dog_image_list_view_model.dart';
 
-import 'Views/main_page.dart';
+import 'views/main_page.dart';
 
 void main() {
   runApp(const MyApp());

@@ -24,6 +24,13 @@ class _SortMethodGroupState extends State<SortMethodGroup> {
     "Descending": SortMethod.desc
   };
   SortMethod defaultChoice = SortMethod.random;
+
+  @override
+  void initState() {
+    defaultChoice = widget.selectedItem;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) => Wrap(
         spacing: 8,
@@ -38,12 +45,13 @@ class _SortMethodGroupState extends State<SortMethodGroup> {
                   .copyWith(color: Colors.white, fontSize: 14),
             ),
             selected: defaultChoice == _choicesMap.values.elementAt(index),
-            selectedColor: Colors.orangeAccent, //TODO: Change to orange
+            selectedColor: Colors.orangeAccent,
             onSelected: (value) {
               setState(() {
                 defaultChoice = value
                     ? _choicesMap.values.elementAt(index)
                     : defaultChoice; //TODO: BUBBLE THIS UP TO onOptionTap !!!!
+                widget.onOptionTap(defaultChoice);
               });
             },
             // backgroundColor: color,
