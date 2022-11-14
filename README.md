@@ -1,7 +1,7 @@
-# the_dog_app
+# The Dog App
 
-A new Flutter project.
+![image](https://user-images.githubusercontent.com/53377890/201757016-e71ad783-cd8f-4936-bed6-6655953287c2.png)
 
-## Maco
+An App that consumes 'The Dog Api'
 
-maco
+Supports sorting and per-breed filtering.
